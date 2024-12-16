@@ -15,10 +15,10 @@ nonlinear associations with Restricted Cubic Splines”*
 
 #### R material
 
-- [Code](https://github.com/andreabellavia/RCSplines/blob/main/continuous/R/rcs_example.qmd)
+- [Code](https://github.com/andreabellavia/RCSplines/blob/main/continuous/R/rcs_logistic_cox.qmd)
   to reproduce the logistic and Cox regression examples
 
-- [Functions](https://github.com/andreabellavia/RCSplines/blob/main/continuous/R/R_functions.qmd)
+- [Functions](https://github.com/andreabellavia/RCSplines/blob/main/continuous/R/R_functions.R)
   used for the examples
 
 #### Stata material
