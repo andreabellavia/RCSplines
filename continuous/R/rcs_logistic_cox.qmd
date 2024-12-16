@@ -1,0 +1,416 @@
+---
+title: "**Estimating and presenting nonlinear associations with Restricted Cubic Splines*"
+author: 
+  - Andrea Discacciati
+  - Michael G. Palazzolo
+  - Jeong-Gun Park
+  - Giorgio E.M. Melloni
+  - Sabina A. Murphy
+  - Andrea Bellavia
+date: today 
+date-format: "YYYY-MM-DD"
+format: 
+  pdf:
+    toc: true
+    toc_depth: 2
+    number-sections: false
+    fig-width: 6
+    fig-height: 4
+    code-block-bg: "#F0F0F0"
+output: console
+editor_options: 
+  chunk_output_type: console
+geometry: margin=2cm
+fontsize: 10pt
+documentclass: article
+---
+
+Load the packages, the dataset, and the functions.
+
+```{r setup, include=TRUE, echo=TRUE, warning=FALSE, message=FALSE}
+
+# Load packages
+library(readxl)
+library(rms)
+library(survival)
+library(ggplot2)
+library(scales)
+
+# Load dataset
+data.example <- read_excel("../data_example.xlsx")
+data.example$y <- data.example$status
+data.example$t <- data.example$time/365.25
+
+# Load functions
+source("R_functions.R")
+
+```
+
+Graphical options.
+
+```{r setup2, include=TRUE, echo=TRUE, warning=FALSE, message=FALSE}
+
+
+# Colours for plotting
+colour.palette <- c("#00798c", "#edae49", "#d1495b", 
+                    "#66a182", "#2e4057", "grey")
+
+# Set referent value for covariate X
+referent.value <- median(data.example$x)
+
+# Label x-axis
+x.axis.label <- "log(NT-proBNP)"
+
+# Label secondary y-axis (histogram)
+y2.axis.label <- "Distribution of log(NT-proBNP)"
+```
+
+# 1. Logistic regression
+
+## a) Fit the model
+
+```{r a, include=TRUE, echo=TRUE, warning=FALSE, message=FALSE}
+
+
+logit.rcs <- glm(y ~ rcs(x, 4), 
+                 data = data.example,
+                 family = binomial(link = "logit"))
+summary(logit.rcs)
+
+```
+
+## b) Generate the data to plot the ORs as a function of X and save the RCS knots' location
+
+```{r b, include=TRUE, echo=TRUE, warning=FALSE, message=FALSE}
+
+logit.or.data <- data_or_hr(model = logit.rcs, 
+                            covariate = x, 
+                            data = data.example, 
+                            n.knots = 4, 
+                            referent.value = referent.value)
+knots.location <- attr(logit.or.data, "knots.location")
+
+head(logit.or.data)
+```
+
+## c) Plot the ORs as a function of X 
+
+### Basic plot
+
+```{r c, include=TRUE, echo=TRUE, warning=FALSE, message=FALSE}
+
+ggplot(logit.or.data, 
+       aes(x = x, 
+           y = log(`exp(Est.)`), 
+           ymin = log(`2.5%`), 
+           ymax = log(`97.5%`))) +
+  geom_line(color = colour.palette[1], lwd = 1.5) + 
+  geom_ribbon(fill = colour.palette[1], alpha = .25) 
+```
+
+### More refined plot
+
+```{r c2, include=TRUE, echo=TRUE, warning=FALSE, message=FALSE}
+ggplot(logit.or.data, 
+       aes(x = x, 
+           y = log(`exp(Est.)`), 
+           ymin = log(`2.5%`), 
+           ymax = log(`97.5%`))) +
+  geom_histogram(data = data.example, aes(x = x, y = after_stat(density*width*15)),
+                 inherit.aes = FALSE,
+                 fill = tail(colour.palette, 1)) +
+  geom_line(color = colour.palette[1], lwd = 1.5) + 
+  geom_ribbon(fill = colour.palette[1], alpha = .25) +
+  labs(x = x.axis.label, 
+       y = "Odds Ratio (95% confidence interval)",
+       caption = "Vertical dashed line indicates the referent value 
+       Vertical dotted lines indicate knots' location") + 
+  theme_bw(base_size = 11) +
+  geom_vline(xintercept = referent.value, lty = 2) + 
+  geom_vline(xintercept = knots.location, lty = 3) + 
+  scale_y_continuous(breaks = log(c(0.1, 0.25, 0.5, 1, 2, 4, 6, 10, 20)), 
+                     labels = \(x) sprintf("%4.2f", exp(x)),
+                     sec.axis = sec_axis(~./15, 
+                                         breaks = seq(0, .10, by = .025),
+                                         labels = percent_format(), 
+                                         name = y2.axis.label)) +
+  scale_x_continuous(breaks = breaks_pretty(10))
+
+```
+
+## d) Generate the data to plot the event probability as a function of X
+
+```{r d, include=TRUE, echo=TRUE, warning=FALSE, message=FALSE}
+
+logit.prob.data <- data_probability(model = logit.rcs, 
+                                    covariate = x, 
+                                    data = data.example)
+
+head(logit.prob.data)
+```
+
+## e) Plot the event probability as a function of X
+
+### Basic plot
+
+```{r e, include=TRUE, echo=TRUE, warning=FALSE, message=FALSE}
+
+ggplot(logit.prob.data, 
+       aes(x = x, 
+           y = Estimate, 
+           ymin = `2.5%`, 
+           ymax = `97.5%`)) +
+  geom_line(color = colour.palette[1], lwd = 1.5) + 
+  geom_ribbon(fill = colour.palette[1], alpha = .25) 
+
+```
+
+### More refined plot
+
+```{r e2, include=TRUE, echo=TRUE, warning=FALSE, message=FALSE}
+
+ggplot(logit.prob.data, 
+       aes(x = x, 
+           y = Estimate, 
+           ymin = `2.5%`, 
+           ymax = `97.5%`)) +
+  geom_histogram(data = data.example, aes(x = x, y = after_stat(density*width*5)), 
+                 inherit.aes = FALSE,
+                 fill = tail(colour.palette, 1)) +
+  geom_line(color = colour.palette[1], lwd = 1.5) + 
+  geom_ribbon(fill = colour.palette[1], alpha = .25) +
+  labs(x = x.axis.label, 
+       y = "Probability (%) (95% confidence interval)",
+       caption = "Vertical dotted lines indicate knots' location") + 
+  theme_bw(base_size = 11) +
+  geom_vline(xintercept = knots.location, lty = 3) + 
+  scale_y_continuous(breaks = seq(0, 1, 0.1),
+                     limits = c(0, 1),
+                     labels = percent_format(),
+                     sec.axis = sec_axis(~./5, 
+                                         breaks = seq(0, .10, by = .025),
+                                         labels = percent_format(), 
+                                         name = y2.axis.label))  +
+  scale_x_continuous(breaks = breaks_pretty(10))
+
+```
+
+
+
+## f) Explore how the covariate-outcome association (OR) changes as the number of the knots changes
+
+```{r f, include=TRUE, echo=TRUE, warning=FALSE, message=FALSE}
+logit.or.data.nknots <- lapply(3:7, \(n.knots) {
+  logit.rcs <- glm(y ~ rcs(x, n.knots), 
+                   data = data.example,
+                   family = binomial(link = "logit"))
+  
+  cat("--->", n.knots, "knots, AIC:", AIC(logit.rcs), "\n")
+  
+  data <- data_or_hr(model = logit.rcs, covariate = x, data = data.example, 
+                     n.knots = n.knots, referent.value = referent.value)
+  data$n.knots <- n.knots
+  data
+})
+
+ggplot(do.call("rbind", logit.or.data.nknots), 
+       aes(x = x, 
+           y = log(`exp(Est.)`),
+           color = factor(n.knots))) +
+  geom_histogram(data = data.example, aes(x = x, y = after_stat(density*width*15)), 
+                 inherit.aes = FALSE,
+                 fill = tail(colour.palette, 1)) +
+  geom_line(lwd = 1.5) + 
+  geom_vline(xintercept = referent.value, lty = 2) + 
+  labs(x = x.axis.label, 
+       y = "Odds Ratio (95% confidence interval)",
+       color = "Number of knots") + 
+  theme_bw(base_size = 11) +
+  theme(legend.position = "bottom") +
+  scale_y_continuous(breaks = log(c(0.1, 0.5, 0.7, 1, 2, 4, 6, 10, 20)), 
+                     labels = \(x) sprintf("%4.2f", exp(x)),
+                     sec.axis = sec_axis(~./15, 
+                                         breaks = seq(0, .10, by = .025),
+                                         labels = percent_format(), 
+                                         name = y2.axis.label)
+  )  +
+  scale_x_continuous(breaks = breaks_pretty(10)) +
+  scale_color_manual(values = colour.palette)
+```
+
+# 2. Cox Regression
+
+
+## a) Fit the Cox regression model 
+
+```{r g, include=TRUE, echo=TRUE, warning=FALSE, message=FALSE}
+cox.rcs <- coxph(Surv(t, y) ~ rcs(x, 4), 
+                 data = data.example)
+summary(cox.rcs)
+```
+
+## b) Generate the data to plot the HRs as a function of X
+
+```{r h, include=TRUE, echo=TRUE, warning=FALSE, message=FALSE}
+cox.hr.data <- data_or_hr(model = cox.rcs, 
+                          covariate = x, 
+                          data = data.example, 
+                          n.knots = 4, 
+                          referent.value = referent.value)
+head(cox.hr.data)
+```
+
+## c) Plot the HRs as a function of X 
+
+### Basic plot
+
+```{r i, include=TRUE, echo=TRUE, warning=FALSE, message=FALSE}
+ggplot(cox.hr.data, 
+       aes(x = x, 
+           y = log(`exp(Est.)`), 
+           ymin = log(`2.5%`), 
+           ymax = log(`97.5%`))) +
+  geom_line(color = colour.palette[1], lwd = 1.5) + 
+  geom_ribbon(fill = colour.palette[1], alpha = .25) 
+```
+
+### More refined plot
+
+```{r i2, include=TRUE, echo=TRUE, warning=FALSE, message=FALSE}
+ggplot(cox.hr.data, 
+       aes(x = x, 
+           y = log(`exp(Est.)`), 
+           ymin = log(`2.5%`), 
+           ymax = log(`97.5%`))) +
+  geom_histogram(data = data.example, aes(x = x, y = after_stat(density*width*15)),
+                 inherit.aes = FALSE,
+                 fill = tail(colour.palette, 1)) +
+  geom_line(color = colour.palette[1], lwd = 1.5) + 
+  geom_ribbon(fill = colour.palette[1], alpha = .25) +
+  labs(x = x.axis.label, 
+       y = "Hazard Ratio (95% confidence interval)",
+       caption = "Vertical dashed line indicates the referent value 
+       Vertical dotted lines indicate knots' location") + 
+  theme_bw(base_size = 11) +
+  geom_vline(xintercept = referent.value, lty = 2) + 
+  geom_vline(xintercept = knots.location, lty = 3) + 
+  scale_y_continuous(breaks = log(c(0.1, 0.25, 0.5, 1, 2, 4, 6, 10, 20)), 
+                     labels = \(x) sprintf("%4.2f", exp(x)),
+                     sec.axis = sec_axis(~./15, 
+                                         breaks = seq(0, .10, by = .025),
+                                         labels = percent_format(), 
+                                         name = y2.axis.label)) +
+  scale_x_continuous(breaks = breaks_pretty(10))
+```
+
+## d) Generate the data to plot the event probability at different time horizons (years) as a function of X
+
+```{r j, include=TRUE, echo=TRUE, warning=FALSE, message=FALSE}
+cox.prob.data <- data_probability(model = cox.rcs, 
+                                  covariate = x, 
+                                  data = data.example, 
+                                  time = c(1, 1.5, 2, 3, 3.5))
+head(cox.prob.data)
+```
+
+
+
+## e) Plot the event probability at different time horizons (years) as a function of X
+
+### Basic plot
+
+```{r k, include=TRUE, echo=TRUE, warning=FALSE, message=FALSE}
+
+ggplot(cox.prob.data, 
+       aes(x = x, 
+           y = Estimate, 
+           ymin = `2.5%`, 
+           ymax = `97.5%`,
+           fill = factor(time),
+           color = factor(time)))+
+  geom_line(lwd = 1.5) + 
+  geom_ribbon(alpha = .25, color = NA) 
+
+```
+
+### More refined plot
+
+```{r k2, include=TRUE, echo=TRUE, warning=FALSE, message=FALSE}
+
+ggplot(cox.prob.data, 
+       aes(x = x, 
+           y = Estimate, 
+           ymin = `2.5%`, 
+           ymax = `97.5%`,
+           fill = factor(time),
+           color = factor(time))) +
+  geom_histogram(data = data.example, aes(x = x, y = after_stat(density*width*5)), 
+                 inherit.aes = FALSE,
+                 fill = tail(colour.palette, 1)) +
+  geom_line(lwd = 1.5) + 
+  geom_ribbon(alpha = .25, color = NA) + 
+  labs(x = x.axis.label, 
+       y = "Event probability (%)\n(95% confidence interval)",
+       caption = "Vertical dotted lines indicate knots' location",
+       fill  = "Year",
+       color = "Year") + 
+  theme_bw(base_size = 11) +
+  theme(legend.position = "bottom") +
+  geom_vline(xintercept = knots.location, lty = 3) + 
+  scale_y_continuous(breaks = seq(0, 1, 0.1), 
+                     limits = c(0, 1),
+                     labels = percent_format(),
+                     sec.axis = sec_axis(~./5, 
+                                         breaks = seq(0, .10, by = .025),
+                                         labels = percent_format(), 
+                                         name = y2.axis.label))  +
+  scale_x_continuous(breaks = breaks_pretty(10)) + 
+  scale_fill_manual(values = colour.palette) +
+  scale_color_manual(values = colour.palette)
+
+```
+
+
+## f) Explore how the covariate-outcome association (HR) changes as the number of the knots changes
+
+```{r l, include=TRUE, echo=TRUE, warning=FALSE, message=FALSE}
+
+cox.hr.data.nknots <- lapply(3:7, \(n.knots) {
+  cox.rcs <- coxph(Surv(t, y) ~ rcs(x, n.knots), 
+                   data = data.example)
+  
+  cat("--->", n.knots, "knots, AIC:", AIC(cox.rcs), "\n")
+  
+  data <- data_or_hr(model = cox.rcs, 
+                     covariate = x, 
+                     data = data.example, 
+                     n.knots = n.knots, 
+                     referent.value = referent.value)
+  data$n.knots <- n.knots
+  data
+})
+
+ggplot(do.call("rbind", cox.hr.data.nknots), 
+       aes(x = x, 
+           y = log(`exp(Est.)`),
+           color = factor(n.knots))) +
+  geom_histogram(data = data.example, aes(x = x, y = after_stat(density*width*15)), 
+                 inherit.aes = FALSE,
+                 fill = tail(colour.palette, 1)) +
+  geom_line(lwd = 1.5) + 
+  geom_vline(xintercept = referent.value, lty = 2) + 
+  labs(x = x.axis.label, 
+       y = "Hazard Ratio (95% confidence interval)",
+       color = "Number of knots") + 
+  theme_bw(base_size = 11) +
+  theme(legend.position = "bottom") +
+  scale_y_continuous(breaks = log(c(0.1, 0.5, 0.7, 1, 2, 4, 6, 10, 20)), 
+                     labels = \(x) sprintf("%4.2f", exp(x)),
+                     sec.axis = sec_axis(~./15, 
+                                         breaks = seq(0, .10, by = .025),
+                                         labels = percent_format(), 
+                                         name = y2.axis.label)
+  )  +
+  scale_x_continuous(breaks = breaks_pretty(10)) +
+  scale_color_manual(values = colour.palette)
+```
