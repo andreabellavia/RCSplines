@@ -31,7 +31,14 @@ nonlinear associations with Restricted Cubic Splines”*
 
 #### SAS material
 
-- Code
+- [Macro](https://github.com/andreabellavia/RCSplines/blob/main/continuous/SAS/OR_spline.sas)
+  for plotting ORs from a Logistic model
+- [Macro](https://github.com/andreabellavia/RCSplines/blob/main/continuous/SAS/HR_splines.sas)
+  for plotting HRs from a Cox model
+- [Macro](https://github.com/andreabellavia/RCSplines/blob/main/continuous/SAS/logistic_splines_evprob.sas)
+  for plotting predicted probabilities after Logistic model
+- [Macro](https://github.com/andreabellavia/RCSplines/blob/main/continuous/SAS/cox_splines_eventprob.sas)
+  for plotting absolute risks after Cox model
 
 ### 2. RCS to model a nonlinear interaction between a binary and a continuous variable
 
