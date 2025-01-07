@@ -1,8 +1,8 @@
 /* #############################################################################
 ** AUTHOR:  Michael Palazzolo and Jeong-Gun Park
-** DATE:    August 29, 2024
+** DATE:    January 2025
 ** ----------------------------------------------------------------
-** PURPOSE: Event Probability - Cox Model
+** PURPOSE: Plot Event Probability after a Cox Model with RCS
 ** ----------------------------------------------------------------
 ** ############################################################################## */
 
@@ -15,14 +15,14 @@
 *** TIMEUNIT = Time unit for response(time) variable;
 *** CENSVAR = Censoring indicator variable;
 *** PREDVAR = Covariate to be splined;
-*** RESPINTEREST = Output of interest: Event Probability (1) or Cummulative Hazard (2);
+*** RESPINTEREST = Output of interest: Event Probability (1) or Cumulative Hazard (2);
 *** KNOTMETHOD = Method of knot placement: PERCENTILELIST (1) or RANGEFRACTIONS (2);
 *** PTKNOTS = Locations of knots used for restricted cubic spline function for the covariate;
 *** ATTIME = Time at which event estimation will be made; 
 *** TIMEATLM = Time at landmarked  (This is for landmark analysis.  If not landmarked, use zero (0));
 *** BYGRP = 1 or 2 groups to be analyzed by: assigned group variable must be (1, 2) for two groups or enter value of 0 for one group; 
-*** BYGRPNM1 = The first group (BYGRP = 1) name to be used for plots: If one goup, then it can be any pseudo name;
-*** BYGRPNM2 = The second group (BYGRP = 2) name to be used for plots: If one goup, then it can be any pseudo name;
+*** BYGRPNM1 = The first group (BYGRP = 1) name to be used for plots: If one group, then it can be any pseudo name;
+*** BYGRPNM2 = The second group (BYGRP = 2) name to be used for plots: If one group, then it can be any pseudo name;
 *** COLOR1 = Color of spline curve for group 1 (or color for single spline if one group);
 *** COLOR2 = Color of spline curve for group 2;
 *** XLABEL = Label of X-axis;
@@ -95,7 +95,7 @@ set descptD;
 	call symput("maxv", round(maxv,0.001));
 run;
 
-/* specify increments by certain amount? */
+/* specify increments by certain amount */
 %put &nv. &stdv. &P1v. &P99v. &minv. &maxv.;
 %let incv = %sysevalf((&maxv.-&minv.) / 100);
 %put &incv.;
@@ -108,14 +108,14 @@ g = ExpandGrid(&predvar.,&bygrp.);
 create basecov from g;
 append from g;
 quit;
-proc print data=basecov; run;
+/*proc print data=basecov; run;*/
 data basecov2;
 set basecov;
 &predvar.=COL1;
 &bygrp.=COL2;
 drop COL1 COL2;
 run;
-proc print data=basecov2; run;
+/*proc print data=basecov2; run;*/
 %end;
 
 %if &ngroups. = 2 %then %do;
@@ -125,14 +125,14 @@ g = ExpandGrid(&predvar.,1:2);
 create basecov from g;
 append from g;
 quit;
-proc print data=basecov; run;
+/*proc print data=basecov; run;*/
 data basecov2;
 set basecov;
 &predvar.=COL1;
 &bygrp.=COL2;
 drop COL1 COL2;
 run;
-proc print data=basecov2; run;
+/*proc print data=basecov2; run;*/
 %end;
 
 *** ==============================================;
@@ -250,7 +250,7 @@ k3 = scan(knotloc,3,' ');
 k4 = scan(knotloc,4,' ');
 k5 = scan(knotloc,5,' ');
 run;
-proc print data=stats1; run;
+/*proc print data=stats1; run;*/
 data _null_;
 	set stats1;
 call symputx('numknot',numknots,'g');
@@ -503,6 +503,7 @@ call symputx('ymax',ymax,'g');
 call symputx('y2min',y2min,'g');
 call symputx('y2max',y2max,'g');
 run;
+
 
 /**** Grid Displayed ****/
 %if &grid. = 1 %then %do;
