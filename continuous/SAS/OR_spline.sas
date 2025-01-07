@@ -1,8 +1,8 @@
 /* #############################################################################
 ** AUTHOR:  Michael Palazzolo and Jeong-Gun Park
-** DATE:    August 29, 2024
+** DATE:    January 2025
 ** ----------------------------------------------------------------
-** PURPOSE: Odds Ratio - Logistic Regression Model
+** PURPOSE: Plot Odds Ratio from a Logistic Regression Model with RCS
 ** ----------------------------------------------------------------
 ** ############################################################################## */
 
@@ -14,14 +14,13 @@
 *** CENSVAR = Binary outcome variable;
 *** PREDVAR = Covariate to be splined;
 *** REFVAL = Reference value of continuous covariate;
-*** RESPINTEREST = Output of interest: Probability of Failure (1) or Probability of Survival (2);
 *** KNOTMETHOD = Method of knot placement: PERCENTILELIST (1) or RANGEFRACTIONS (2);
 *** PTKNOTS = Locations of knots used for restricted cubic spline function for the covariate;
-*** GRPDIFF = Specify (1) for hazard of group 1 vs group 2 (single line);
+*** GRPDIFF = Specify (1) for odds of group 1 vs group 2 (single line);
 *** GRPREF = Reference value for group (if GRPDIFF=1);
 *** BYGRP = 1 or 2 groups to be analyzed by: assigned group variable must be (1, 2) for two groups or enter value of 0 for one group; 
-*** BYGRPNM1 = The first group (BYGRP = 1) name to be used for plots: If one goup, then it can be any pseudo name;
-*** BYGRPNM2 = The second group (BYGRP = 2) name to be used for plots: If one goup, then it can be any pseudo name;
+*** BYGRPNM1 = The first group (BYGRP = 1) name to be used for plots: If one group, then it can be any pseudo name;
+*** BYGRPNM2 = The second group (BYGRP = 2) name to be used for plots: If one group, then it can be any pseudo name;
 *** COLOR1 = Color of spline curve for group 1 (or color for single spline if one group);
 *** COLOR2 = Color of spline curve for group 2;
 *** XLABEL = Label of X-axis;
@@ -35,18 +34,19 @@
 *** Y2VALS = Values for the ticks of Y2-axis if overlaying histogram (hist=1);
 *** TITLE = Title for the plot;
 *** KNOTLINES = Requests lines where the knots are placed (enter value of 1);
-*** REFLINE = Requests a line for the reference value of the continuous covaraite (REFVAL) (enter value of 1);
+*** REFLINE = Requests a line for the reference value of the continuous covariate (REFVAL) (enter value of 1);
 *** REFLINEODDS = Requests a line of reference for the odds ratio drawn at 1;
 *** HIST = Request a histogram of the covariate that is splined overlayed on the plot (enter value of 1);
 *** NBINS = Number of bins for the histogram (if hist=1);
 *** GRID = Requests gridlines for the plot (enter a value of 1);
+*** LINEAR = Requests test for non-linearity (enter a value of 1);
 *** ================================;
 
 *** ###################$$$$$$$$$$$$$$############################;
 *** MACRO starts here;
 *** #############################################################;
-%macro LOGISTIC_ODDS_RCS(indat=, trim=, censvar=, predvar=, refval=, respinterest=, knotmethod=, ptknots=, grpdiff=, grpref=, bygrp=, bygrpnm1=, bygrpnm2=, color1=, color2=, 
-                                xlabel=, xlabelsize=, xvals=, ylabel=, ylabelsize=, yvals=, y2label=, y2labelsize=, y2vals=, title=, knotlines=, refline=, reflineodds=, hist=, nbins=, grid=);
+%macro LOGISTIC_ODDS_RCS(indat=, trim=, censvar=, predvar=, refval=, knotmethod=, ptknots=, grpdiff=, grpref=, bygrp=, bygrpnm1=, bygrpnm2=, color1=, color2=, 
+                                xlabel=, xlabelsize=, xvals=, ylabel=, ylabelsize=, yvals=, y2label=, y2labelsize=, y2vals=, title=, knotlines=, refline=, reflineodds=, hist=, nbins=, grid=, linear=);
 
 *If no by group specified - specify 0;
 %if &bygrp. = 0 %then %do;
@@ -105,11 +105,12 @@ run;
 %put &incv.;
 
 %macro REPEAT();
-
+ods exclude all;
 proc datasets;
 	delete orD orAD orZD;
 quit; 
 run;
+ods exclude close;
 
 %if &grpdiff.=0 %then %do;
 %do j = 0 %to 99;
@@ -523,6 +524,50 @@ call symputx('ymax',ymax,'g');
 call symputx('y2min',y2min,'g');
 call symputx('y2max',y2max,'g');
 run;
+
+%if &linear. = 1 %then %do;
+*** ==============================================;
+*** Linearity Testing;
+*** ==============================================;
+ods exclude all;
+proc logistic data=&indat. descending;
+/*	by &bygrp.;*/
+%if &knotmethod. = 1 %then %do;
+	effect splxvar = spline(&predvar. / naturalcubic knotmethod=PERCENTILELIST(&ptknots.));
+%end;
+%if &knotmethod. = 2 %then %do;
+	effect splxvar = spline(&predvar. / naturalcubic knotmethod=RANGEFRACTIONS(&ptknots.));
+%end;
+	model &censvar. = splxvar / link=logit;
+	%if &numknot. = 3 %then %do;
+	lintest: test splxvar3=0;
+	%end;
+	%if &numknot. = 4 %then %do;
+	lintest: test splxvar3=0,splxvar4=0;
+	%end;
+	%if &numknot. = 5 %then %do;
+	lintest: test splxvar3=0,splxvar4=0,splxvar5=0;
+	%end;
+	ods output TestStmts=lin0;
+run;
+ods exclude close;
+/*proc print data=lin0; run;*/
+
+
+data lin1;
+set lin0;
+Label2 = "P-value for non-linearity";
+plin = ProbChiSq;
+call symput('plin',strip(left(plin)));
+keep Label2 plin;
+run;
+proc print data=lin1 noobs label;
+label Label2 = "Test"
+plin="P-value";
+run;
+%put &plin.;
+%end;
+
 
 /**** Grid Displayed ****/
 %if &grid. = 1 %then %do;
