@@ -1,8 +1,8 @@
 /* #############################################################################
 ** AUTHOR:  Michael Palazzolo and Jeong-Gun Park
-** DATE:    August 29, 2024
+** DATE:    January 2025
 ** ----------------------------------------------------------------
-** PURPOSE: Event Probability - Logistic Regression Model
+** PURPOSE: Plot Event Probability after a Logistic Regression Model with RCS
 ** ----------------------------------------------------------------
 ** ############################################################################## */
 
@@ -17,8 +17,8 @@
 *** KNOTMETHOD = Method of knot placement: PERCENTILELIST (1) or RANGEFRACTIONS (2);
 *** PTKNOTS = Locations of knots used for restricted cubic spline function for the covariate;
 *** BYGRP = 1 or 2 groups to be analyzed by: assigned group variable must be (1, 2) for two groups or enter value of 0 for one group; 
-*** BYGRPNM1 = The first group (BYGRP = 1) name to be used for plots: If one goup, then it can be any pseudo name;
-*** BYGRPNM2 = The second group (BYGRP = 2) name to be used for plots: If one goup, then it can be any pseudo name;
+*** BYGRPNM1 = The first group (BYGRP = 1) name to be used for plots: If one group, then it can be any pseudo name;
+*** BYGRPNM2 = The second group (BYGRP = 2) name to be used for plots: If one group, then it can be any pseudo name;
 *** COLOR1 = Color of spline curve for group 1 (or color for single spline if one group);
 *** COLOR2 = Color of spline curve for group 2;
 *** XLABEL = Label of X-axis;
@@ -184,7 +184,7 @@ k3 = scan(knotloc,3,' ');
 k4 = scan(knotloc,4,' ');
 k5 = scan(knotloc,5,' ');
 run;
-proc print data=stats1; run;
+/*proc print data=stats1; run;*/
 data _null_;
 	set stats1;
 call symputx('numknot',numknots,'g');
@@ -437,6 +437,7 @@ call symputx('ymax',ymax,'g');
 call symputx('y2min',y2min,'g');
 call symputx('y2max',y2max,'g');
 run;
+
 
 /**** Grid Displayed ****/
 %if &grid. = 1 %then %do;
