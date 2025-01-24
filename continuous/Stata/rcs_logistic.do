@@ -2,10 +2,11 @@
 *     Andrea Discacciati, Michael G. Palazzolo, Jeong-Gun Park, 
 *     Giorgio E.M. Melloni, Sabina A. Murphy,  Andrea Bellavia
 
+
 * Read the data. Rename variables so that the code below can be re-used. 
 * y = binary outcome, x = continuous variable 
-* This example requires the xbrcspline Stata package: ssc install xbrcspline
 clear all
+cd "/Users/anddis/Library/CloudStorage/OneDrive-KarolinskaInstitutet/other/andrea_rcs/"
 import excel "data_example.xlsx", clear firstrow
 
 rename status y
@@ -16,6 +17,8 @@ replace x = round(x, 0.01)
 mkspline xrcs = x , nknots(4) cubic displayknots
 mat knotslocation = r(knots)
 
+
+*** Part 1: Model fitting and output interpretation ***
 * Fit logistic model with RCS transforms for variable x
 logit y xrcs1 xrcs2 xrcs3
 
@@ -27,6 +30,8 @@ testparm xrcs1 xrcs2 xrcs3
 * (joint Wald test on all RCS transforms except the first one, which coincides with x itself).
 testparm xrcs2 xrcs3
 
+
+*** Part 2: Graphical presentation of exposure-response relationship ***
 * Prepare the data to plot the Odds Ratio for x, using 5 (median) as the referent value (Odds Ratio = 1).
 su x, detail
 levelsof x
@@ -44,7 +49,7 @@ twoway (histogram x, yaxis(2) yscale(alt axis(2) r(0 15)) percent color(gs12) bi
 	ytitle("Odds Ratio (95% confidence interval)") ///
 	ytitle("Percent of subjects", axis(2) placement(center)) ///
 	xtitle("log(NT-proBNP)") name(graph1, replace)
-graph export "logistic_oddsratio.pdf", replace
+graph export "stata/logistic_oddsratio.pdf", replace
 	
 * Predict outcome probabilities as a function of x.
 predict ylogit, xb
@@ -63,7 +68,7 @@ twoway (histogram x, yaxis(2) yscale(alt axis(2) r(0 15)) percent color(gs12) bi
 	ytitle("Outcome probability (95% confidence interval)") ///
 	ytitle("Percent of subjects", axis(2) placement(center)) ///
 	xtitle("log(NT-proBNP)") name(graph2, replace)
-graph export "logistic_probability.pdf", replace
+graph export "stata/logistic_probability.pdf", replace
 
 drop xrcs1 xrcs2 xrcs3 xplot or orlb orub ylogit yse yprob yproblb yprobub
 
@@ -91,4 +96,4 @@ twoway (histogram x, yaxis(2) yscale(alt axis(2) r(0 15)) percent color(gs12) bi
 	ytitle("Odds Ratio (95% confidence interval)") ///
 	ytitle("Percent of subjects", axis(2) placement(center)) ///
 	xtitle("log(NT-proBNP)") name(graph3, replace)
-graph export "logistic_oddsratio_knots.pdf", replace
+graph export "stata/logistic_oddsratio_knots.pdf", replace
