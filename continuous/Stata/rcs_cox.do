@@ -5,8 +5,8 @@
 * Read the data. Rename variables so that the code below can be re-used. 
 * t = time-to-event variable, d = observed/censored event time indicator 
 * (0 = right-censored, 1 = observed event time), x = continuous variable.
-* This example requires the xbrcspline Stata package: ssc install xbrcspline
 clear all
+cd "/Users/anddis/Library/CloudStorage/OneDrive-KarolinskaInstitutet/other/andrea_rcs/"
 import excel "data_example.xlsx", clear firstrow
 
 rename status d
@@ -18,6 +18,8 @@ replace x = round(x, 0.01)
 mkspline xrcs = x , nknots(4) cubic displayknots
 mat knotslocation = r(knots)
 
+
+*** Part 1: Model fitting and output interpretation ***
 * Fit Cox proportional-hazards model with RCS transforms for variable x
 stset t, fail(d) scale(365.24)
 stcox xrcs1 xrcs2 xrcs3, nohr
@@ -30,6 +32,8 @@ testparm xrcs1 xrcs2 xrcs3
 * (joint Wald test on all RCS transforms except the first one, which coincides with x itself).
 testparm xrcs2 xrcs3
 
+
+*** Part 2: Graphical presentation of exposure-response relationship ***
 * Prepare the data to plot the Hazard Ratio for x, using 5 as the referent value (Hazard Ratio = 1).
 su x, detail
 levelsof x
@@ -47,7 +51,7 @@ twoway (histogram x, yaxis(2) yscale(alt axis(2) r(0 15)) percent color(gs12) bi
 	ytitle("Hazard Ratio (95% confidence interval)") ///
 	ytitle("Percent of subjects", axis(2) placement(center)) ///
 	xtitle("log(NT-proBNP)") name(graph1, replace)
-graph export "survival_hazardratio.pdf", replace
+graph export "stata/survival_hazardratio.pdf", replace
 
 * Predict event probabilities at 1, 1.5, 2, 3, 3.5 years as a function of x.
 predict loghr, xb
@@ -79,9 +83,9 @@ twoway (histogram x, yaxis(2) yscale(alt axis(2) r(0 15)) percent color(gs12) bi
 	ytitle("Event probability (95% confidence interval)") ///
 	ytitle("Percent of subjects", axis(2) placement(center)) ///
 	xtitle("log(NT-proBNP)") name(graph2, replace)
-graph export "survival_probability.pdf", replace
+graph export "stata/survival_probability.pdf", replace
 
-* Let’s assess how the dose-response association changes as the number of the knots changes.
+* Assess how the dose-response association changes as the number of the knots changes.
 drop xrcs1 xrcs2 xrcs3 xplot hr hrlb hrub loghr basesurvprob survprob1 survprob15 survprob2 survprob3 survprob35
 
 quietly forvalues k = 3/7 {
@@ -107,5 +111,7 @@ twoway (histogram x, yaxis(2) yscale(alt axis(2) r(0 15)) percent color(gs12) bi
 	ytitle("Hazard Ratio (95% confidence interval)") ///
 	ytitle("Percent of subjects", axis(2) placement(center)) ///
 	xtitle("log(NT-proBNP)") name(graph3, replace)
-graph export "survival_hazardratio_knots.pdf", replace
+graph export "stata/survival_hazardratio_knots.pdf", replace
+
+
 
