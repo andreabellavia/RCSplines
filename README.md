@@ -5,7 +5,7 @@ Last updated: 2025-01-29
 
 ------------------------------------------------------------------------
 
-- [2025/01/29 - Slides](https://github.com/andreabellavia/RCSplines/blob/main/continuous/2025_01_29_catalyst_Bellavia.pdf)
+- [2025/01/29 - Slides](https://github.com/andreabellavia/RCSplines/blob/main/continuous/2025_01_29_catalyst_Bellavia_.pdf)
 
 ### 1. RCS to model a continuous variable in logistic and Cox regression
 
