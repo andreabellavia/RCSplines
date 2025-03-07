@@ -63,3 +63,5 @@ nonlinear associations with Restricted Cubic Splines”*
 
 - [SAS
   material](https://timi.org/wp-content/uploads/2023/09/SAS-macros_rev.txt)
+
+### 3. Pseudo Values
