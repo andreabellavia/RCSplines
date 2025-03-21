@@ -64,17 +64,17 @@ nonlinear associations with Restricted Cubic Splines”*
 - [SAS
   material](https://timi.org/wp-content/uploads/2023/09/SAS-macros_rev.txt)
 
-### 3. Pseudo Values
+### 3. Genralized linear model (GLM) regression using Pseudo Values
 
-#### Deriving Pseudo Values
+#### Pseudo Values derivation and comparison with KM
 
-- [Macro](https://github.com/andreabellavia/RCSplines/blob/main/continuous/pseudovalues/Deriving_Pseudo_Values_Macro.sas)
+- [SAS Macro](https://github.com/andreabellavia/RCSplines/blob/main/continuous/pseudovalues/Deriving_Pseudo_Values_Macro.sas)
 
 - [ENAR 2025 Poster](https://github.com/andreabellavia/RCSplines/blob/main/continuous/pseudovalues/ENAR_poster_final.pdf)
 
-#### Absolute Risks and Absolute Risk Differences with nonlinear effects
+#### Pseudo-values GLM with RCS to estimate nonlinear Absolute Risks and Absolute Risk Differences
 
-- [Macro](https://github.com/andreabellavia/RCSplines/blob/main/continuous/pseudovalues/Macro_Splines_Pseudo.sas) 
+- [SAS Macro](https://github.com/andreabellavia/RCSplines/blob/main/continuous/pseudovalues/Macro_Splines_Pseudo.sas) 
   for modeling nonlinear effects using pseudo-values
 
 - [Macro](https://github.com/andreabellavia/RCSplines/blob/main/continuous/pseudovalues/Macro_Splines_Cox.sas)
