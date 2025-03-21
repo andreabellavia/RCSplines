@@ -65,3 +65,20 @@ nonlinear associations with Restricted Cubic Splines”*
   material](https://timi.org/wp-content/uploads/2023/09/SAS-macros_rev.txt)
 
 ### 3. Pseudo Values
+
+#### Deriving Pseudo Values
+
+- [Macro](https://github.com/andreabellavia/RCSplines/blob/main/pseudovalues/Deriving Pseudo Values Macro FINAL.sas)
+
+#### Absolute Risks and Absolute Risk Differences with nonlinear effects
+
+- [Macro](https://github.com/andreabellavia/RCSplines/blob/main/pseudovalues/Macro Splines Pseudo FINAL.sas)
+  for modeling nonlinear effects using pseudo-values
+
+- [Macro](https://github.com/andreabellavia/RCSplines/blob/main/pseudovalues/Macro Splines Cox FINAL.sas)
+  for modeling nonlinear effects using cox regression
+
+- [Simulation Example](https://github.com/andreabellavia/RCSplines/blob/main/pseudovalues/SAS Simulation Example.sas)
+  
+- [Simulation Data](https://github.com/andreabellavia/RCSplines/blob/main/pseudovalues/simdatafinal.sas7bdat)
+  
