@@ -68,17 +68,19 @@ nonlinear associations with Restricted Cubic Splines”*
 
 #### Deriving Pseudo Values
 
-- [Macro](https://github.com/andreabellavia/RCSplines/blob/main/pseudovalues/Deriving Pseudo Values Macro FINAL.sas)
+- [Macro](https://github.com/andreabellavia/RCSplines/blob/main/pseudovalues/Deriving_Pseudo_Values_Macro.sas) 
 
 #### Absolute Risks and Absolute Risk Differences with nonlinear effects
 
-- [Macro](https://github.com/andreabellavia/RCSplines/blob/main/pseudovalues/Macro Splines Pseudo FINAL.sas)
+- [Macro](https://github.com/andreabellavia/RCSplines/blob/main/pseudovalues/Macro_Splines_Pseudo.sas) 
   for modeling nonlinear effects using pseudo-values
 
-- [Macro](https://github.com/andreabellavia/RCSplines/blob/main/pseudovalues/Macro Splines Cox FINAL.sas)
+- [Macro](https://github.com/andreabellavia/RCSplines/blob/main/pseudovalues/Macro_Splines_Cox.sas)
   for modeling nonlinear effects using cox regression
 
-- [Simulation Example](https://github.com/andreabellavia/RCSplines/blob/main/pseudovalues/SAS Simulation Example.sas)
+- [Simulation Example](https://github.com/andreabellavia/RCSplines/blob/main/pseudovalues/SAS_Simulation_Example.sas) 
   
 - [Simulation Data](https://github.com/andreabellavia/RCSplines/blob/main/pseudovalues/simdatafinal.sas7bdat)
+
+- [JSM 2023 Presentation](https://github.com/andreabellavia/RCSplines/blob/main/pseudovalues/JSM_poster_final_HR.pdf)
   
