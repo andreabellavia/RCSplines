@@ -68,7 +68,9 @@ nonlinear associations with Restricted Cubic Splines”*
 
 #### Deriving Pseudo Values
 
-- [Macro](https://github.com/andreabellavia/RCSplines/blob/main/pseudovalues/Deriving_Pseudo_Values_Macro.sas) 
+- [Macro](https://github.com/andreabellavia/RCSplines/blob/main/pseudovalues/Deriving_Pseudo_Values_Macro.sas)
+
+- [ENAR 2025 Poster](https://github.com/andreabellavia/RCSplines/blob/main/pseudovalues/ENAR_poster_final.pdf)
 
 #### Absolute Risks and Absolute Risk Differences with nonlinear effects
 
@@ -82,5 +84,5 @@ nonlinear associations with Restricted Cubic Splines”*
   
 - [Simulation Data](https://github.com/andreabellavia/RCSplines/blob/main/pseudovalues/simdatafinal.sas7bdat)
 
-- [JSM 2023 Presentation](https://github.com/andreabellavia/RCSplines/blob/main/pseudovalues/JSM_poster_final_HR.pdf)
+- [JSM 2023 Poster](https://github.com/andreabellavia/RCSplines/blob/main/pseudovalues/JSM_poster_final_HR.pdf)
   
