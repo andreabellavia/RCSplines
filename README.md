@@ -64,7 +64,7 @@ nonlinear associations with Restricted Cubic Splines”*
 - [SAS
   material](https://timi.org/wp-content/uploads/2023/09/SAS-macros_rev.txt)
 
-### 3. Genralized linear model (GLM) regression using Pseudo Values
+### 3. Generalized linear model (GLM) regression using Pseudo Values
 
 #### Pseudo Values derivation and comparison with KM
 
