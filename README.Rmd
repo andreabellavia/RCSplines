@@ -18,6 +18,8 @@ Supplementary material for the manuscript _"Estimating and presenting nonlinear 
 
 - [Code](https://github.com/andreabellavia/RCSplines/blob/main/continuous/R/rcs_logistic_cox.qmd) to reproduce the logistic and Cox regression examples
 
+- [Output](https://andreabellavia.github.io/RCSplines/continuous/R/rcs_logistic_cox.html) for the examples in html format 
+
 - [Functions](https://github.com/andreabellavia/RCSplines/blob/main/continuous/R/R_functions.R) used for the examples
 
 #### Stata material 
