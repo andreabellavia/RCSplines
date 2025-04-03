@@ -38,17 +38,13 @@ nonlinear associations with Restricted Cubic Splines”*
 
 #### SAS material
 
-- [Macro](https://github.com/andreabellavia/RCSplines/blob/main/continuous/SAS/OR_spline.sas)
-  to plot ORs from a logistic model
+- Macros to plot ORs from a logistic model: [unadjusted models](https://github.com/andreabellavia/RCSplines/blob/main/continuous/SAS/OR_spline.sas) / [adjusted models](https://github.com/andreabellavia/RCSplines/blob/main/continuous/SAS/OR_spline_adj.sas)
 
-- [Macro](https://github.com/andreabellavia/RCSplines/blob/main/continuous/SAS/HR_splines.sas)
-  to plot HRs from a Cox model
+- Macros to plot HRs from a Cox model: [unadjusted models](https://github.com/andreabellavia/RCSplines/blob/main/continuous/SAS/HR_spline.sas) / [adjusted models](https://github.com/andreabellavia/RCSplines/blob/main/continuous/SAS/HR_spline_adj.sas)
 
-- [Macro](https://github.com/andreabellavia/RCSplines/blob/main/continuous/SAS/logistic_splines_evprob.sas)
-  to plot predicted probabilities after logistic model
+- Macros to plot predicted probabilities after logistic model: [unadjusted models](https://github.com/andreabellavia/RCSplines/blob/main/continuous/SAS/logistic_splines_evprob.sas) / [adjusted models](https://github.com/andreabellavia/RCSplines/blob/main/continuous/SAS/logistic_splines_evprob_adj.sas)
 
-- [Macro](https://github.com/andreabellavia/RCSplines/blob/main/continuous/SAS/cox_splines_eventprob.sas)
-  to plot absolute risks after Cox model
+- Macros to plot absolute risks after Cox model: [unadjusted models](https://github.com/andreabellavia/RCSplines/blob/main/continuous/SAS/cox_splines_eventprob.sas) / [adjusted models](https://github.com/andreabellavia/RCSplines/blob/main/continuous/SAS/cox_splines_eventprob_adj.sas)
 
 ### 2. RCS to model a nonlinear interaction between a binary and a continuous variable
 
