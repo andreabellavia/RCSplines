@@ -28,14 +28,6 @@ nonlinear associations with Restricted Cubic Splines”*
 - [Functions](https://github.com/andreabellavia/RCSplines/blob/main/continuous/R/R_functions.R)
   used for the examples
 
-#### Stata material
-
-- [Code](https://github.com/andreabellavia/RCSplines/blob/main/continuous/Stata/rcs_logistic.do)
-  to reproduce the logistic regression example
-
-- [Code](https://github.com/andreabellavia/RCSplines/blob/main/continuous/Stata/rcs_cox.do)
-  to reproduce the Cox regression example
-
 #### SAS material
 
 - Macros to plot ORs from a logistic model: [unadjusted models](https://github.com/andreabellavia/RCSplines/blob/main/continuous/SAS/OR_spline.sas) / [adjusted models](https://github.com/andreabellavia/RCSplines/blob/main/continuous/SAS/OR_splines_adj.sas)
@@ -46,6 +38,14 @@ nonlinear associations with Restricted Cubic Splines”*
 
 - Macros to plot absolute risks after Cox model: [unadjusted models](https://github.com/andreabellavia/RCSplines/blob/main/continuous/SAS/cox_splines_eventprob.sas) / [adjusted models](https://github.com/andreabellavia/RCSplines/blob/main/continuous/SAS/cox_splines_eventprob_adj.sas)
 
+#### Stata material
+
+- [Code](https://github.com/andreabellavia/RCSplines/blob/main/continuous/Stata/rcs_logistic.do)
+  to reproduce the logistic regression example
+
+- [Code](https://github.com/andreabellavia/RCSplines/blob/main/continuous/Stata/rcs_cox.do)
+  to reproduce the Cox regression example
+  
 ### 2. RCS to model a nonlinear interaction between a binary and a continuous variable
 
 #### R package `interactionRCS`
