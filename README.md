@@ -1,9 +1,13 @@
 
 ## Estimating and presenting nonlinear associations and interactions with Restricted Cubic Splines (RCS)
 
-Last updated: 2025-04-02
+Last updated: 2025-04-03
 
 ------------------------------------------------------------------------
+
+- [Slides](https://andreabellavia.github.io/RCSplines/continuous/2025_01_29_catalyst_Bellavia_.pdf)
+  for the Harvard Catalyst seminar held by Andrea Bellavia on January
+  29, 2025
 
 ### 1. RCS to model a continuous variable in logistic and Cox regression
 
@@ -34,7 +38,17 @@ nonlinear associations with Restricted Cubic Splines”*
 
 #### SAS material
 
-- Code
+- [Macro](https://github.com/andreabellavia/RCSplines/blob/main/continuous/SAS/OR_spline.sas)
+  to plot ORs from a logistic model
+
+- [Macro](https://github.com/andreabellavia/RCSplines/blob/main/continuous/SAS/HR_splines.sas)
+  to plot HRs from a Cox model
+
+- [Macro](https://github.com/andreabellavia/RCSplines/blob/main/continuous/SAS/logistic_splines_evprob.sas)
+  to plot predicted probabilities after logistic model
+
+- [Macro](https://github.com/andreabellavia/RCSplines/blob/main/continuous/SAS/cox_splines_eventprob.sas)
+  to plot absolute risks after Cox model
 
 ### 2. RCS to model a nonlinear interaction between a binary and a continuous variable
 
@@ -57,3 +71,31 @@ nonlinear associations with Restricted Cubic Splines”*
 
 - [SAS
   material](https://timi.org/wp-content/uploads/2023/09/SAS-macros_rev.txt)
+
+### 3. Generalized linear model (GLM) for estimating event risks using Pseudo Values
+
+#### Pseudo Values derivation and comparison with KM
+
+- [SAS
+  Macro](https://github.com/andreabellavia/RCSplines/blob/main/continuous/pseudovalues/Deriving_Pseudo_Values_Macro.sas)
+
+- [ENAR 2025
+  Poster](https://github.com/andreabellavia/RCSplines/blob/main/continuous/pseudovalues/ENAR_poster_final.pdf)
+
+#### Pseudo-values GLM with RCS to estimate nonlinear Absolute Risks and Absolute Risk Differences
+
+- [SAS
+  Macro](https://github.com/andreabellavia/RCSplines/blob/main/continuous/pseudovalues/Macro_Splines_Pseudo.sas)
+  to model nonlinear effects using pseudo-values
+
+- [Macro](https://github.com/andreabellavia/RCSplines/blob/main/continuous/pseudovalues/Macro_Splines_Cox.sas)
+  to model nonlinear effects using cox regression
+
+- [Simulation
+  Example](https://github.com/andreabellavia/RCSplines/blob/main/continuous/pseudovalues/SAS_Simulation_Example.sas)
+
+- [Simulation
+  Data](https://github.com/andreabellavia/RCSplines/blob/main/continuous/pseudovalues/simdatafinal.sas7bdat)
+
+- [JSM 2023
+  Poster](https://github.com/andreabellavia/RCSplines/blob/main/continuous/pseudovalues/JSM_poster_final_HR.pdf)
