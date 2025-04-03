@@ -38,9 +38,9 @@ nonlinear associations with Restricted Cubic Splines”*
 
 #### SAS material
 
-- Macros to plot ORs from a logistic model: [unadjusted models](https://github.com/andreabellavia/RCSplines/blob/main/continuous/SAS/OR_spline.sas) / [adjusted models](https://github.com/andreabellavia/RCSplines/blob/main/continuous/SAS/OR_spline_adj.sas)
+- Macros to plot ORs from a logistic model: [unadjusted models](https://github.com/andreabellavia/RCSplines/blob/main/continuous/SAS/OR_spline.sas) / [adjusted models](https://github.com/andreabellavia/RCSplines/blob/main/continuous/SAS/OR_splines_adj.sas)
 
-- Macros to plot HRs from a Cox model: [unadjusted models](https://github.com/andreabellavia/RCSplines/blob/main/continuous/SAS/HR_spline.sas) / [adjusted models](https://github.com/andreabellavia/RCSplines/blob/main/continuous/SAS/HR_spline_adj.sas)
+- Macros to plot HRs from a Cox model: [unadjusted models](https://github.com/andreabellavia/RCSplines/blob/main/continuous/SAS/HR_splines.sas) / [adjusted models](https://github.com/andreabellavia/RCSplines/blob/main/continuous/SAS/HR_splines_adj.sas)
 
 - Macros to plot predicted probabilities after logistic model: [unadjusted models](https://github.com/andreabellavia/RCSplines/blob/main/continuous/SAS/logistic_splines_evprob.sas) / [adjusted models](https://github.com/andreabellavia/RCSplines/blob/main/continuous/SAS/logistic_splines_evprob_adj.sas)
 
