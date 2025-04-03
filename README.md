@@ -72,9 +72,9 @@ nonlinear associations with Restricted Cubic Splines”*
 - [SAS
   material](https://timi.org/wp-content/uploads/2023/09/SAS-macros_rev.txt)
 
-### 3. Generalized linear model (GLM) for estimating event risks using Pseudo Values
+### 3. Generalized linear model (GLM) for estimating event risks using Pseudo-values
 
-#### Pseudo Values derivation and comparison with KM
+#### Pseudo-values derivation and comparison with Kaplan-Meier estimates
 
 - [SAS
   Macro](https://github.com/andreabellavia/RCSplines/blob/main/continuous/pseudovalues/Deriving_Pseudo_Values_Macro.sas)
@@ -89,7 +89,7 @@ nonlinear associations with Restricted Cubic Splines”*
   to model nonlinear effects using pseudo-values
 
 - [Macro](https://github.com/andreabellavia/RCSplines/blob/main/continuous/pseudovalues/Macro_Splines_Cox.sas)
-  to model nonlinear effects using cox regression
+  to model nonlinear effects using Cox regression
 
 - [Simulation
   Example](https://github.com/andreabellavia/RCSplines/blob/main/continuous/pseudovalues/SAS_Simulation_Example.sas)
