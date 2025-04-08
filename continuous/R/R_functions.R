@@ -1,16 +1,24 @@
-# last update: 2024-12-06
-# Andrea D. & Andrea B.
+# Last update: 2025-04-02
+# Andrea Discacciati & Andrea Bellavia
 
 # Function to derive data for OR and HR
-data_or_hr <- function(model,
-                       covariate,
-                       data,
-                       n.knots,
-                       referent.value){
+data_or_hr <- function(model,                  # required
+                       covariate,              # required
+                       n.knots,                # required
+                       referent.value,         # required
+                       data,                   # optional, default = model$call$data
+                       conf.level = 0.95,      # optional, default = 0.95
+                       length.grid.x = 100){   # optional, default = 100
   
+  coef.glmgee <- function(x) { 
+    setNames(as.vector(x$coefficients), rownames(x$coefficients))
+  }
+  
+  if (isTRUE(base::missing(data))) 
+    data <- eval(model$call$data, parent.frame())
   x <- eval(substitute(covariate), data, parent.frame())
   name.x <- deparse(substitute(covariate))
-  grid.x <- seq(min(x, na.rm = TRUE), max(x, na.rm = TRUE), length.out = 500)
+  grid.x <- seq(min(x, na.rm = TRUE), max(x, na.rm = TRUE), length.out = length.grid.x)
   
   coefs.regex <- paste0("rcs\\(", 
                         name.x, 
@@ -19,7 +27,18 @@ data_or_hr <- function(model,
                         "'*$")
   coefs.rcs <- grep(coefs.regex, names(coef(model)))
   names(coefs.rcs) <- names(coef(model))[coefs.rcs]
-
+  
+  # store and print p-values
+  p.overall <- base::format.pval(aod::wald.test(vcov(model), coef(model), 
+                                                Terms = coefs.rcs)$result$chi2["P"],
+                                 eps = 0.0001, digits = 3, scientific = FALSE)
+  p.nonlinearity <- base::format.pval(aod::wald.test(vcov(model), coef(model), 
+                                                     Terms = coefs.rcs[-1])$result$chi2["P"],
+                                      eps = 0.0001, digits = 3, scientific = FALSE)
+  cat(sprintf("\nP-value for overall association: %s\nP-value for non-linearity: %s\n\n", 
+              p.overall, p.nonlinearity))
+  
+  # data.frame
   knots.location <- Hmisc::rcspline.eval(x,
                                          nk = n.knots,
                                          knots.only = TRUE)
@@ -37,7 +56,8 @@ data_or_hr <- function(model,
   log.or <- Epi::ci.lin(model,
                         ctr.mat = contrast.matrix,
                         subset = coefs.rcs,
-                        Exp = TRUE)
+                        Exp = TRUE,
+                        alpha = 1-conf.level)
   
   data.out <- as.data.frame(
     cbind(grid.x,
@@ -45,59 +65,89 @@ data_or_hr <- function(model,
   )
   colnames(data.out) <- c(name.x, colnames(log.or))
   attr(data.out, "knots.location") <- knots.location
-  
-  p.overall <- base::format.pval(aod::wald.test(vcov(model), coef(model), 
-                                                Terms = coefs.rcs)$result$chi2["P"],
-                                 eps = 0.0001, digits = 3, scientific = FALSE)
-  p.nonlinearity <- base::format.pval(aod::wald.test(vcov(model), coef(model), 
-                                                     Terms = coefs.rcs[-1])$result$chi2["P"],
-                                      eps = 0.0001, digits = 3, scientific = FALSE)
-  cat(sprintf("\nP-value for overall association: %s\nP-value for non-linearity: %s\n\n", 
-              p.overall, p.nonlinearity))
+  attr(data.out, "p.overall") <- p.overall
+  attr(data.out, "p.nonlinearity") <- p.nonlinearity
   
   data.out
 }
 
-# Function to derive model prediction
-data_probability <- function(model,
-                             covariate,
-                             data,
-                             time){
+# Function to derive predicted event probabilities
+data_probability <- function(model,                   # required
+                             covariate,               # required
+                             time,                    # required with coxph models
+                             newdata,                 # required if any extra covariate
+                             data,                    # optional, default = model$call$data
+                             conf.level = 0.95,       # optional, default = 0.95
+                             length.grid.x = 100){    # optional, default = 100
+  
+  if (isTRUE(!inherits(model, "glm") & !inherits(model, "glmgee") & !inherits(model, "coxph")))
+    stop("Objects of class glm, glmgee, or coxph are supported")
   
   isCOX <- inherits(model, "coxph")
   
+  if (isTRUE(base::missing(data))) 
+    data <- eval(model$call$data, parent.frame())
   x <- eval(substitute(covariate), data, parent.frame())
   name.x <- deparse(substitute(covariate))
-  grid.x <- seq(min(x, na.rm = TRUE), max(x, na.rm = TRUE), length.out = 500)
+  grid.x <- seq(min(x, na.rm = TRUE), max(x, na.rm = TRUE), length.out = length.grid.x)
+  newdata2 <- as.data.frame(grid.x)
+  colnames(newdata2) <- name.x
   
-  newdata <- as.data.frame(grid.x)
-  colnames(newdata) <- name.x
+  if (isFALSE(base::missing(newdata))) { # if newdata is not missing, full join grid.x with newdata
+    newdata2 <- merge(newdata2, newdata)
+    colnames(newdata2) <- c(name.x, colnames(newdata))
+  }
   
-  if (!isCOX) {
-    prob <- Epi::ci.pred(model,
-                         newdata)
+  if (isFALSE(isCOX)) { # logit
+    ci.pred <- function (obj, newdata, alpha, varest = "robust") { # based on Epi::ci.pred
+      predict.glmgee <- function(...) {
+        pred.mat <- glmtoolbox:::predict.glmgee(...)
+        asplit(pred.mat, 2)
+      }
+      zz <- predict(obj, newdata = newdata, se.fit = TRUE, 
+                    type = "link", varest = varest)
+      zz <- cbind(zz$fit, zz$se.fit) %*% Epi::ci.mat(alpha = alpha)
+      return(obj$family$linkinv(zz))
+    }
+    
+    prob <- ci.pred(model,
+                    newdata2,
+                    alpha = 1-conf.level)
     
     data.out <- as.data.frame(
-      cbind(grid.x,
+      cbind(newdata2,
             prob)
     )
-    colnames(data.out) <- c(name.x, colnames(prob))
-  } else {
+    colnames(data.out) <- c(colnames(newdata2), colnames(prob))
+  } else { # cox
+    as.data.frame.summary.survfit <- function(x) {
+      alpha <- 1-x$conf.int
+      df.out <- data.frame(
+        1-as.vector(t(x$surv)),
+        1-as.vector(t(x$lower)),
+        1-as.vector(t(x$upper))
+      )
+      colnames.ci.mat <- c("Estimate", # from Epi:::ci.mat
+                           paste(formatC(100 * alpha/2, format = "f", digits = 1), "%", sep = ""), 
+                           paste(formatC(100 * (1-alpha/2), format = "f", digits = 1), "%", sep = ""))
+      colnames(df.out) <- colnames.ci.mat
+      
+      df.out
+    }
+    
     prob <- survival:::summary.survfit(
       survival::survfit(model, 
-                        newdata,
+                        newdata2,
                         se.fit = TRUE, 
-                        conf.type = "log-log"),
+                        conf.type = "log-log",
+                        conf.int = conf.level),
       time = time)
     
-    data.out <- data.frame(
-      rep(time, each = length(grid.x)),
-      grid.x,
-      1-as.vector(t(prob$surv)),
-      1-as.vector(t(prob$lower)),
-      1-as.vector(t(prob$upper))
+    data.out <- cbind(
+      time = rep(time, each = nrow(newdata2)),
+      newdata2,
+      as.data.frame(prob)
     )
-    colnames(data.out) <- c("time", name.x, "Estimate", "2.5%", "97.5%")
   }
   
   data.out
