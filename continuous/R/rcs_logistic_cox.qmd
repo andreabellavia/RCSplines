@@ -1,5 +1,5 @@
 ---
-title: "**Including and Presenting Non-Linear Associations in Regression Models with Restricted Cubic Splines**"
+title: "**Estimating and Presenting Non-Linear Associations with Restricted Cubic Splines**"
 author: 
   - Andrea Discacciati
   - Michael G. Palazzolo
@@ -30,7 +30,7 @@ output: console
 editor_options: 
   chunk_output_type: console
 geometry: margin=2cm
-fontsize: 10pt
+fontsize: 12pt
 documentclass: article
 engine: knitr
 knitr:
@@ -44,8 +44,17 @@ execute:
   message: false
 ---
 
-Load the packages, the dataset, and the functions (**note**: the following packages are required
-to use the function `data_or_hr` and `data_probability`: `Epi`, `aod`, `survival`, `Hmisc`, `glmtoolbox`) .
+---
+
+::: {.callout-note}
+The R functions `data_or_hr` and `data_probability` are available from our
+RCSpline GitHub repository: [https://andreabellavia.github.io/RCSplines/](https://andreabellavia.github.io/RCSplines/) (the following packages must be installed: `Epi`, `aod`, `survival`, `Hmisc`, `glmtoolbox`). 
+
+
+They can also be downloaded directly from this link: [https://andreabellavia.github.io/RCSplines/continuous/R/R_functions.R](https://andreabellavia.github.io/RCSplines/continuous/R/R_functions.R). 
+:::
+
+Load the packages, the dataset, and the functions.
 
 ```{r}
 # Load packages
@@ -100,7 +109,6 @@ summary(logit.rcs)
 ```{r}
 logit.or.data <- data_or_hr(model = logit.rcs, 
                             covariate = x, 
-                            n.knots = 4, 
                             referent.value = referent.value)
 knots.location <- attr(logit.or.data, "knots.location")
 
@@ -227,7 +235,6 @@ Generate the data to plot the ORs (conditional on `age`) as a function of `x` an
 ```{r}
 logit.or.data.cov <- data_or_hr(model = logit.rcs.cov, 
                                 covariate = x, 
-                                n.knots = 4, 
                                 referent.value = referent.value)
 knots.location <- attr(logit.or.data.cov, "knots.location")
 
@@ -358,7 +365,6 @@ as a function of `x` and save the RCS knots' location.
 ```{r}
 logit.or.data.ipw <- data_or_hr(model = logit.rcs.ipw, 
                                 covariate = x, 
-                                n.knots = 4, 
                                 referent.value = referent.value)
 knots.location <- attr(logit.or.data.ipw, "knots.location")
 
@@ -450,7 +456,6 @@ logit.or.data.nknots <- lapply(3:8, \(n.knots) {
   
   data <- data_or_hr(model = logit.rcs, 
                      covariate = x,
-                     n.knots = n.knots, 
                      referent.value = referent.value)
   data$n.knots <- n.knots
   data
@@ -490,7 +495,6 @@ summary(cox.rcs)
 ```{r}
 cox.hr.data <- data_or_hr(model = cox.rcs, 
                           covariate = x, 
-                          n.knots = 4, 
                           referent.value = referent.value)
 head(cox.hr.data)
 ```
@@ -622,7 +626,6 @@ Generate the data to plot the HRs (conditional on `age`) as a function of `x` an
 ```{r}
 cox.hr.data.cov <- data_or_hr(model = cox.rcs.cov, 
                               covariate = x, 
-                              n.knots = 4, 
                               referent.value = referent.value)
 head(cox.hr.data.cov)
 ```
@@ -754,7 +757,6 @@ as a function of `x` and save the RCS knots' location.
 ```{r}
 cox.hr.data.ipw <- data_or_hr(model = cox.rcs.ipw, 
                               covariate = x, 
-                              n.knots = 4, 
                               referent.value = referent.value)
 head(cox.hr.data.ipw)
 ```
@@ -850,7 +852,6 @@ cox.hr.data.nknots <- lapply(3:8, \(n.knots) {
   
   data <- data_or_hr(model = cox.rcs, 
                      covariate = x, 
-                     n.knots = n.knots, 
                      referent.value = referent.value)
   data$n.knots <- n.knots
   data

@@ -1,10 +1,9 @@
-# Last update: 2025-04-02
+# Last update: 2025-04-09
 # Andrea Discacciati & Andrea Bellavia
 
 # Function to derive data for OR and HR
 data_or_hr <- function(model,                  # required
                        covariate,              # required
-                       n.knots,                # required
                        referent.value,         # required
                        data,                   # optional, default = model$call$data
                        conf.level = 0.95,      # optional, default = 0.95
@@ -27,6 +26,7 @@ data_or_hr <- function(model,                  # required
                         "'*$")
   coefs.rcs <- grep(coefs.regex, names(coef(model)))
   names(coefs.rcs) <- names(coef(model))[coefs.rcs]
+  n.knots <- length(coefs.rcs)+1L
   
   # store and print p-values
   p.overall <- base::format.pval(aod::wald.test(vcov(model), coef(model), 
