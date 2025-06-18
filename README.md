@@ -1,7 +1,7 @@
 
 ## Estimating and presenting nonlinear associations and interactions with Restricted Cubic Splines (RCS)
 
-Last updated: 2025-04-09
+Last updated: 2025-06-18
 
 ------------------------------------------------------------------------
 
@@ -11,8 +11,8 @@ Last updated: 2025-04-09
 
 ### 1. RCS to model a continuous variable in logistic and Cox regression
 
-Supplementary material for the manuscript *“Estimating and presenting
-nonlinear associations with Restricted Cubic Splines”*
+Supplementary material for the manuscript [*“Estimating and presenting
+nonlinear associations with Restricted Cubic Splines”*](https://academic.oup.com/ije/article/54/4/dyaf088/8166023?searchresult=1)
 
 - [Dataset](https://github.com/andreabellavia/RCSplines/blob/main/continuous/data_example.xlsx)
   used for the examples
