@@ -6,7 +6,7 @@ Last updated: 2025-06-18
 ------------------------------------------------------------------------
 
 - [Slides](https://andreabellavia.github.io/RCSplines/continuous/2025_01_29_catalyst_Bellavia_.pdf)
-  for the Harvard Catalyst seminar held by Andrea Bellavia on January
+  for the Harvard Catalyst seminar on January
   29, 2025
 
 ### 1. RCS to model a continuous variable in logistic and Cox regression
