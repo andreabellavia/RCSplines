@@ -1,6 +1,4 @@
-# RCSplines
-
-### Software and Tutorials for Restricted Cubic Splines
+# Software and Tutorials for Restricted Cubic Splines
 
 📖 Open the Website: https://andreabellavia.github.io/RCSplines/
 
