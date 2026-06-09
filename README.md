@@ -8,8 +8,8 @@ Last updated: 2025-06-18
 ------------------------------------------------------------------------
 ## A. Introductory Material
 
-- [*“Estimating and presenting
-nonlinear associations with Restricted Cubic Splines”*](https://academic.oup.com/ije/article/54/4/dyaf088/8166023?searchresult=1), International Journal of Epidemiology 2025
+- [“Estimating and presenting
+nonlinear associations with Restricted Cubic Splines”](https://academic.oup.com/ije/article/54/4/dyaf088/8166023?searchresult=1), International Journal of Epidemiology 2025
 
   - Supplementary material: [Dataset](https://github.com/andreabellavia/RCSplines/blob/main/continuous/data_example.xlsx)
   used for the examples
@@ -20,7 +20,7 @@ nonlinear associations with Restricted Cubic Splines”*](https://academic.oup.c
 
 ## B. Software 
 
-Please consider citing the following manuscript if you use these macros or functions in your research: "Discacciati A, Palazzolo MG, Park JG, Melloni GE, Murphy SA, Bellavia A. Estimating and presenting non-linear associations with restricted cubic splines. International journal of epidemiology. 2025 Aug;54(4)."
+Please consider citing the following manuscript if you use these macros or functions in your research: "*Discacciati A, Palazzolo MG, Park JG, Melloni GE, Murphy SA, Bellavia A. Estimating and presenting non-linear associations with restricted cubic splines. International journal of epidemiology. 2025 Aug;54(4).*"
 
 ### 1. RCS to model a continuous variable in logistic and Cox regression
 
