@@ -5,7 +5,7 @@
 
 A collection of code, tutorials, and supporting materials for estimating and presenting nonlinear associations and interactions in epidemiologic research using restricted cubic splines (RCS).
 
-Available in: R | SAS | Stata
+Available in: | R | SAS | Stata
 
 Last updated: 2025-06-18
 
