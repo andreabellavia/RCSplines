@@ -13,18 +13,6 @@ Last updated: 2025-06-18
 ------------------------------------------------------------------------
 ## A. Introductory Material
 
-- [“Estimating and presenting
-nonlinear associations with Restricted Cubic Splines”](https://academic.oup.com/ije/article/54/4/dyaf088/8166023?searchresult=1), International Journal of Epidemiology 2025
-
-  - Supplementary material: [Dataset](https://github.com/andreabellavia/RCSplines/blob/main/continuous/data_example.xlsx)
-  used for the examples
-  - Please consider citing this manuscript if you use our macros and functions for your research
-
-- [Harvard Catalyst seminar](https://andreabellavia.github.io/RCSplines/continuous/2025_01_29_catalyst_Bellavia_.pdf)
-  January 2025
-
-## B. Software 
-
 ### Citation
 
 If you find these macros, functions, or tutorials useful in your research, please consider citing:
@@ -32,6 +20,22 @@ If you find these macros, functions, or tutorials useful in your research, pleas
 Discacciati A, Palazzolo MG, Park JG, Melloni GEM, Murphy SA, Bellavia A.
 *Estimating and Presenting Non-Linear Associations with Restricted Cubic Splines.*
 International Journal of Epidemiology. 2025.
+
+### Manuscripts and research talks
+
+- [Estimating and presenting
+nonlinear associations with Restricted Cubic Splines](https://academic.oup.com/ije/article/54/4/dyaf088/8166023?searchresult=1), International Journal of Epidemiology 2025
+
+- [Estimating and presenting hazard ratios and absolute risks from a
+  Cox model with complex nonlinear interactions](https://academic.oup.com/aje/article/193/8/1155/7678921), American Journal of Epidemiology 2024
+
+- [Harvard Catalyst seminar](https://andreabellavia.github.io/RCSplines/continuous/2025_01_29_catalyst_Bellavia_.pdf)
+  January 2025
+
+## B. Software 
+
+- [Dataset](https://github.com/andreabellavia/RCSplines/blob/main/continuous/data_example.xlsx)
+  used for all examples included in Discacciati et al, IJE 2025
 
 ### 1. RCS to model a continuous variable in logistic and Cox regression
 
@@ -87,16 +91,11 @@ International Journal of Epidemiology. 2025.
 
 #### Absolute Risks and Absolute Risk Differences from a Cox model with nonlinear interactions
 
-- Supplementary material for the
-  [paper](https://academic.oup.com/aje/article/193/8/1155/7678921)
-  *“Estimating and presenting hazard ratios and absolute risks from a
-  Cox model with complex nonlinear interactions”* published in the
-  American Journal of Epidemiology (2024)
-
-- [R
+- Supplementary material for Bellavia et al, AJE 2024
+  - [R
   material](https://timi.org/wp-content/uploads/2023/11/R-material.zip)
 
-- [SAS
+  - [SAS
   material](https://timi.org/wp-content/uploads/2023/09/SAS-macros_rev.txt)
 
 ### 3. Generalized linear model (GLM) for estimating event risks using Pseudo-values
