@@ -1,8 +1,7 @@
-# Software and Tutorials for Restricted Cubic Splines
 
-📖 Open the Website: https://andreabellavia.github.io/RCSplines/
+📖 Website: https://andreabellavia.github.io/RCSplines/
 
-## Estimating and presenting nonlinear associations and interactions with Restricted Cubic Splines (RCS)
+# Software and Tutorials for Restricted Cubic Splines (RCS)
 
 Last updated: 2025-06-18
 
