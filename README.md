@@ -6,18 +6,21 @@
 Last updated: 2025-06-18
 
 ------------------------------------------------------------------------
+## A. Introductory Material
 
-- [Slides](https://andreabellavia.github.io/RCSplines/continuous/2025_01_29_catalyst_Bellavia_.pdf)
-  for the Harvard Catalyst seminar on January
-  29, 2025
-
-### 1. RCS to model a continuous variable in logistic and Cox regression
-
-Supplementary material for the manuscript [*“Estimating and presenting
+- [*“Estimating and presenting
 nonlinear associations with Restricted Cubic Splines”*](https://academic.oup.com/ije/article/54/4/dyaf088/8166023?searchresult=1), International Journal of Epidemiology 2025
 
-- [Dataset](https://github.com/andreabellavia/RCSplines/blob/main/continuous/data_example.xlsx)
+  - Supplementary material: [Dataset](https://github.com/andreabellavia/RCSplines/blob/main/continuous/data_example.xlsx)
   used for the examples
+  - Please consider citing this manuscript if you use our macros and functions for your research
+
+- [Harvard Catalyst seminar](https://andreabellavia.github.io/RCSplines/continuous/2025_01_29_catalyst_Bellavia_.pdf)
+  January 2025
+
+## B. Software 
+
+### 1. RCS to model a continuous variable in logistic and Cox regression
 
 #### R material
 
