@@ -2,15 +2,7 @@
 
 ### Software and Tutorials for Restricted Cubic Splines
 
-📖 Website: https://andreabellavia.github.io/RCSplines/
-
-🚀 Start here:
-- Logistic regression
-- Cox regression
-- Nonlinear interactions
-- Pseudo-values methods
-
-[Open the website](https://andreabellavia.github.io/RCSplines)
+📖 Open the Website: https://andreabellavia.github.io/RCSplines/
 
 ## Estimating and presenting nonlinear associations and interactions with Restricted Cubic Splines (RCS)
 
