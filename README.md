@@ -1,9 +1,14 @@
 
 📖 Website: https://andreabellavia.github.io/RCSplines/
 
-# Software and Tutorials for Restricted Cubic Splines (RCS)
+# Software and Tutorials for Restricted Cubic Splines
+
+A collection of code, tutorials, and supporting materials for estimating and presenting nonlinear associations and interactions in epidemiologic research using restricted cubic splines (RCS).
+
+Available in: R | SAS | Stata
 
 Last updated: 2025-06-18
+
 
 ------------------------------------------------------------------------
 ## A. Introductory Material
@@ -20,7 +25,13 @@ nonlinear associations with Restricted Cubic Splines”](https://academic.oup.co
 
 ## B. Software 
 
-Please consider citing the following manuscript if you use these macros or functions in your research: "*Discacciati A et al. Estimating and presenting non-linear associations with restricted cubic splines. International journal of epidemiology. 2025 Aug;54(4).*"
+### Citation
+
+If you find these macros, functions, or tutorials useful in your research, please consider citing:
+
+Discacciati A, Palazzolo MG, Park JG, Melloni GEM, Murphy SA, Bellavia A.
+*Estimating and Presenting Non-Linear Associations with Restricted Cubic Splines.*
+International Journal of Epidemiology. 2025.
 
 ### 1. RCS to model a continuous variable in logistic and Cox regression
 
@@ -76,7 +87,7 @@ Please consider citing the following manuscript if you use these macros or funct
 
 #### Absolute Risks and Absolute Risk Differences from a Cox model with nonlinear interactions
 
-- Supplemenraty material for the
+- Supplementary material for the
   [paper](https://academic.oup.com/aje/article/193/8/1155/7678921)
   *“Estimating and presenting hazard ratios and absolute risks from a
   Cox model with complex nonlinear interactions”* published in the
