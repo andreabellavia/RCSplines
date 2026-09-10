@@ -73,6 +73,9 @@ nonlinear associations with Restricted Cubic Splines](https://academic.oup.com/i
   / [adjusted
   models](https://github.com/andreabellavia/RCSplines/blob/main/continuous/SAS/cox_splines_eventprob_adj.sas)
 
+- [Macro](https://github.com/andreabellavia/RCSplines/blob/main/continuous/pseudovalues/Macro_Splines_Cox.sas)
+  to model nonlinear effects using Cox regression
+  
 #### Stata material
 
 - [Code](https://github.com/andreabellavia/RCSplines/blob/main/continuous/Stata/rcs_logistic.do)
@@ -113,9 +116,6 @@ nonlinear associations with Restricted Cubic Splines](https://academic.oup.com/i
 - [SAS
   Macro](https://github.com/andreabellavia/RCSplines/blob/main/continuous/pseudovalues/Macro_Splines_Pseudo.sas)
   to model nonlinear effects using pseudo-values
-
-- [Macro](https://github.com/andreabellavia/RCSplines/blob/main/continuous/pseudovalues/Macro_Splines_Cox.sas)
-  to model nonlinear effects using Cox regression
 
 - [Simulation
   Example](https://github.com/andreabellavia/RCSplines/blob/main/continuous/pseudovalues/SAS_Simulation_Example.sas)
